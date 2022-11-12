@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 53d0ed79b26a591409d8049527488974
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - InGameDebugConsolePrefab: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

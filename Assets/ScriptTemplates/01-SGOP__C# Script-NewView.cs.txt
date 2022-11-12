@@ -1,0 +1,40 @@
+using SGOP.Base;
+using SGOP.Manager;
+using SGOP.UI;
+using SGOP.Util.Type;
+using UnityEngine;
+
+public class #SCRIPTNAME# : BaseView
+{
+  #region Component Fields
+  #endregion
+
+
+  #region Private Fields
+  #endregion
+
+
+  #region Internal Fields
+  #endregion
+
+
+  #region Unity Methods
+  void Start()
+  {
+    #NOTRIM#
+  }
+
+  void Update()
+  {
+    #NOTRIM#
+  }
+  #endregion
+
+
+  #region Private Methods
+  #endregion
+
+
+  #region Public Methods
+  #endregion
+}
