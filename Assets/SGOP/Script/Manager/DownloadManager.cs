@@ -2,6 +2,7 @@ using System.Collections;
 using System.IO;
 using SGOP.Model;
 using SGOP.Util;
+using SGOP.Util.Constants;
 using SGOP.Util.Type;
 using UnityEngine;
 using UnityEngine.Events;
@@ -163,6 +164,8 @@ namespace SGOP.Manager
       {
         callback?.Invoke(uwr);
       }
+
+      CoroutineManager.Instance.EndCoroutine("ExecuteUWR");
     }
     #endregion
 
@@ -181,7 +184,7 @@ namespace SGOP.Manager
       var uwr = UnityWebRequest.Get(url);
 
       // TODO: startcoroutine
-      ExecuteUWR(uwr, (uwr) =>
+      CoroutineManager.Instance.AddCoroutine(ExecuteUWR(uwr, (uwr) =>
       {
         var json = uwr.downloadHandler.text;
 
@@ -193,7 +196,7 @@ namespace SGOP.Manager
         DebugManager.Instance.Error($"{name}.DownloadJson", $"url: {url} | uwr.result: {uwr.result} | text: {uwr.downloadHandler.text}", uwr.error);
 
         callbackError?.Invoke();
-      });
+      }), "ExecuteUWR");
     }
 
     internal void DownloadTexture(string fileName, string origin, UnityAction<Texture2D> callback, UnityAction callbackError = null)

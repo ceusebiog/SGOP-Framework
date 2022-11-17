@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using SGOP.Manager;
@@ -15,33 +16,34 @@ namespace SGOP.Base
 
 
     #region Private Fields
-    private List<IEnumerator> ListImagesToDownload;
-    private List<IEnumerator> ListAudiosToDownload;
+    private List<IEnumerator> ListImagesToDownload = new List<IEnumerator>();
+    private List<IEnumerator> ListAudiosToDownload = new List<IEnumerator>();
     #endregion
 
 
     #region Internal Fields
+    internal bool skipNextBeforeBuilView;
     #endregion
 
 
     #region Unity Methods
-    public virtual void Awake()
-    {
-      ListImagesToDownload = new List<IEnumerator>();
-      ListAudiosToDownload = new List<IEnumerator>();
-    }
     #endregion
 
 
     #region Internal Methods
     internal void Initialization(string jsonData = "")
     {
-      BeforeBuilView();
-      BuildView();
-      AfterBuildView();
+      try
+      {
+        BuildView();
 
-      BeforeDownload();
-      StartDownload();
+        BeforeDownload();
+        StartDownload();
+      }
+      catch (Exception e)
+      {
+        print($"catch: {e.Message}");
+      }
     }
 
     internal void FinishView(float delay = 1f)
@@ -54,10 +56,14 @@ namespace SGOP.Base
 
     #region Virtual Methods
     #region Build View
-    public virtual void BeforeBuilView() { }
-
-    public void BuildView()
+    private void BuildView()
     {
+      if (!skipNextBeforeBuilView)
+      {
+        BeforeBuilView();
+      }
+      skipNextBeforeBuilView = false;
+
       BuildTexts();
       BuildAudios();
       BuildImages();
@@ -65,23 +71,28 @@ namespace SGOP.Base
       BuildDropDowns();
       BuildInputFields();
       BuildToggleItems();
+
+      AfterBuildView();
     }
 
-    public virtual void BuildTexts() { }
-    public virtual void BuildAudios() { }
-    public virtual void BuildImages() { }
-    public virtual void BuildButtons() { }
-    public virtual void BuildDropDowns() { }
-    public virtual void BuildInputFields() { }
-    public virtual void BuildToggleItems() { }
+    internal virtual void BeforeBuilView() { }
 
-    public virtual void AfterBuildView() { }
+    internal virtual void BuildTexts() { }
+    internal virtual void BuildAudios() { }
+    internal virtual void BuildImages() { }
+    internal virtual void BuildButtons() { }
+    internal virtual void BuildDropDowns() { }
+    internal virtual void BuildInputFields() { }
+    internal virtual void BuildToggleItems() { }
+
+    internal virtual void AfterBuildView() { }
     #endregion
 
-    #region Download
-    public virtual void BeforeDownload() { }
 
-    public void StartDownload()
+    #region Download
+    internal virtual void BeforeDownload() { }
+
+    private void StartDownload()
     {
       if (ListImagesToDownload.Count == 0 && ListAudiosToDownload.Count == 0)
       {
@@ -102,30 +113,40 @@ namespace SGOP.Base
       ListAudiosToDownload.Clear();
     }
 
-    public virtual void AfterDownload()
-    {
-      BeforeShow();
-    }
-    #endregion
-
-    #region Show
-    public virtual void BeforeShow()
+    // Call when end downloads
+    internal virtual void AfterDownload()
     {
       Show();
     }
+    #endregion
 
-    public virtual void Show()
+
+    #region Show
+    internal void Show()
     {
+      BeforeShow();
       containerAnim.SetBool("Show", true);
+      AfterShow();
       Loading.Instance.Hide();
     }
 
-    public virtual void Hide()
+    internal virtual void BeforeShow() { }
+
+    internal virtual void AfterShow() { }
+    #endregion
+
+
+    #region Hide
+    internal void Hide()
     {
+      BeforeHide();
       containerAnim.SetBool("Show", false);
+      AfterHide();
     }
 
-    public virtual void AfterShow() { }
+    internal virtual void BeforeHide() { }
+
+    internal virtual void AfterHide() { }
     #endregion
     #endregion
   }

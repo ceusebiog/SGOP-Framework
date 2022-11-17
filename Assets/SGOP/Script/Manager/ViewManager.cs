@@ -150,12 +150,14 @@ namespace SGOP.Manager
 
 
     #region Internal Methods
-    internal GameObject OpenView(string viewName, string jsonName = "", ViewType viewType = ViewType.Page, bool withoutContent = false)
+    internal GameObject OpenView(string viewName, string urlJson = "", ViewType viewType = ViewType.Page, bool withoutContent = false)
     {
+      Loading.Instance.Show();
       if (string.IsNullOrWhiteSpace(viewName))
       {
         DebugManager.Instance.Error($"{name}.OpenView", $"Try to open view with empty ViewName");
 
+        Loading.Instance.Hide();
         return null;
       }
 
@@ -192,7 +194,7 @@ namespace SGOP.Manager
       }
       else
       {
-        DebugManager.Instance.Log($"{name}.OpenView", $"Load view: {viewName} | jsonName: {jsonName}");
+        DebugManager.Instance.Log($"{name}.OpenView", $"Load view: {viewName} | urlJson: {urlJson}");
 
         view = Instantiate(Resources.Load($"Prefabs/View/{viewType}/{viewName}", typeof(GameObject)), parentI) as GameObject;
         view.name = viewName;
@@ -206,9 +208,6 @@ namespace SGOP.Manager
         }
         else
         {
-          var urlJson = "";
-          urlJson = $"{Constants.BUCKET_CONTENT_PATH}/view/{jsonName}";
-
           DownloadManager.Instance.DownloadJson(
             urlJson,
             (jsonData) => view.GetComponent<BaseView>().Initialization(jsonData)

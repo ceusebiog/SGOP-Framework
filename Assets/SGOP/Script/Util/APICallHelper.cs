@@ -13,11 +13,11 @@ using SGOP.Model.Response;
 
 namespace SGOP.Util
 {
-  public class APICallHelper
+  public class APICall
   {
     public static void Post<TReq, TRes>(string url, TReq request, UnityAction<BaseResponse> callback, UnityAction<BaseResponse> errorCallback = null) where TReq : BaseRequest where TRes : BaseResponse
     {
-      DebugManager.Instance.Log("APICallHelper.Post", $"url: {url}", obj: request);
+      DebugManager.Instance.Log("APICall.Post", $"url: {url}", obj: request);
 
       var json = JsonConvert.SerializeObject(request, Formatting.None);
       var data = Encoding.UTF8.GetBytes(json);
@@ -37,7 +37,7 @@ namespace SGOP.Util
 
     public static void Post<TRes>(string url, WWWForm request, UnityAction<BaseResponse> callback, UnityAction<BaseResponse> errorCallback = null) where TRes : BaseResponse
     {
-      DebugManager.Instance.Log("APICallHelper.Post", $"url: {url}", obj: request);
+      DebugManager.Instance.Log("APICall.Post", $"url: {url}", obj: request);
 
       var uwr = UnityWebRequest.Post(url, request);
 
@@ -58,7 +58,7 @@ namespace SGOP.Util
         }
       }
 
-      DebugManager.Instance.Log("APICallHelper.Get", $"url: {url}");
+      DebugManager.Instance.Log("APICall.Get", $"url: {url}");
 
       var uwr = UnityWebRequest.Get(url);
       CoroutineManager.Instance.AddCoroutine(Send<T>(uwr, callback, errorCallback), "Send");
@@ -79,7 +79,7 @@ namespace SGOP.Util
         if (uwr.result != UnityWebRequest.Result.Success)
         {
           var jsonData = uwr.downloadHandler.text;
-          DebugManager.Instance.Error("APICallHelper.Send", $"Response: {jsonData}", uwr.error);
+          DebugManager.Instance.Error("APICall.Send", $"Response: {jsonData}", uwr.error);
 
           var data = JsonConvert.DeserializeObject<MessageResponse>(jsonData);
 
@@ -89,7 +89,7 @@ namespace SGOP.Util
         {
           var jsonData = uwr.downloadHandler.text;
 
-          DebugManager.Instance.Log("APICallHelper.Send", $"Response: {jsonData}");
+          DebugManager.Instance.Log("APICall.Send", $"Response: {jsonData}");
 
           var data = JsonConvert.DeserializeObject<T>(jsonData);
 
@@ -98,7 +98,7 @@ namespace SGOP.Util
       }
       catch (Exception e)
       {
-        DebugManager.Instance.Error("APICallHelper.Send", $"Catch: {e.Message}");
+        DebugManager.Instance.Error("APICall.Send", $"Catch: {e.Message}");
         errorCallback?.Invoke(null);
       }
 

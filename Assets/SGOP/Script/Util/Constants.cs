@@ -1,4 +1,4 @@
-namespace SGOP.Util
+namespace SGOP.Util.Constants
 {
   public class Constants
   {

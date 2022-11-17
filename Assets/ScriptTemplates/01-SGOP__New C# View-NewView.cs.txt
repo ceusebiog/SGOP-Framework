@@ -35,6 +35,9 @@ public class #SCRIPTNAME# : BaseView
   #endregion
 
 
-  #region Public Methods
+  #region Internal Methods
+  internal override void BeforeBuilView() { }
+
+  internal override void AfterBuildView() { }
   #endregion
 }
