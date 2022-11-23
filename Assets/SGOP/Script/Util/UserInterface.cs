@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SGOP.Manager;
 using SGOP.Model;
+using SGOP.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -225,7 +226,7 @@ namespace SGOP.Util
       }
     }
 
-    public static Button SetButtonExtendedItem(IButtonItem buttonItem, Button button, UnityAction onClicAction = null, UnityAction callbackError = null)
+    public static ButtonSGOP SetButtonExtendedItem(IButtonItem buttonItem, ButtonSGOP button, UnityAction onClicAction = null, UnityAction callbackError = null)
     {
       if (buttonItem != null && button != null)
       {
@@ -252,7 +253,7 @@ namespace SGOP.Util
       }
     }
 
-    public static Dropdown SetDropDownItem(IDropDownItem dropDownItem, Dropdown dropdown, List<string> items, UnityAction<int> onChangeValue = null, int selectedItem = -1)
+    public static DropdownSGOP SetDropDownItem(IDropDownItem dropDownItem, DropdownSGOP dropdown, List<string> items, UnityAction<int> onChangeValue = null, int selectedItem = -1)
     {
       if (dropDownItem != null && dropdown != null)
       {
@@ -281,7 +282,7 @@ namespace SGOP.Util
       }
     }
 
-    public static InputField SetInputFieldItem(IInputFieldItem inputFieldItem, InputField inputField)
+    public static InputFieldSGOP SetInputFieldItem(IInputFieldItem inputFieldItem, InputFieldSGOP inputField)
     {
       if (inputFieldItem != null && inputField != null)
       {

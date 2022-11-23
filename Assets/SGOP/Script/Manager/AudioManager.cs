@@ -65,6 +65,12 @@ namespace SGOP.Manager
       effectList_AS.ForEach(x => x.volume = volume);
     }
 
+    public void SetVolume(float volume)
+    {
+      musicList_AS.ForEach(x => x.volume = volume);
+      effectList_AS.ForEach(x => x.volume = volume);
+    }
+
     internal void PlayAudioClip(AudioClip audioClip, AudioClipType audioClipType, bool loop = true, bool stopAll = true)
     {
       AudioSource audioSource;

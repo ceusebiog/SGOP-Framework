@@ -1,7 +1,6 @@
 using System;
-using SGOP.Base;
 
-namespace SGOP.Model.Response
+namespace SGOP.Model
 {
   [Serializable]
   public class MessageResponse : BaseResponse

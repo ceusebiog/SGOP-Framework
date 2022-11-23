@@ -8,6 +8,5 @@ namespace SGOP.Model
   {
     public List<string> Images = new List<string>();
     public List<string> Audios = new List<string>();
-    public List<string> Videos = new List<string>();
   }
 }

@@ -91,6 +91,11 @@ namespace SGOP.Manager
       listCoroutineNamesToExecute.Remove(name);
       currentCoroutinesRunning--;
     }
+    
+    internal void SetMaxCoroutinesAtATime(int max)
+    {
+      maxCoroutinesAtATime = max;
+    }
     #endregion
   }
 }

@@ -36,7 +36,7 @@ public class #SCRIPTNAME# : BaseView
 
 
   #region Internal Methods
-  internal override void BeforeBuilView() { }
+  internal override void BeforeBuildView() { }
 
   internal override void AfterBuildView() { }
   #endregion

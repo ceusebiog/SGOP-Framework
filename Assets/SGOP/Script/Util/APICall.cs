@@ -1,15 +1,14 @@
+using Newtonsoft.Json;
+using SGOP.Manager;
+using SGOP.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using UnityEngine.Networking;
 using System.Text;
-using UnityEngine.Events;
-using Newtonsoft.Json;
 using UnityEngine;
-using System;
-using SGOP.Manager;
-using SGOP.Base;
-using SGOP.Model.Response;
+using UnityEngine.Events;
+using UnityEngine.Networking;
 
 namespace SGOP.Util
 {

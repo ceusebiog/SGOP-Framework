@@ -11,18 +11,18 @@ namespace SGOP.Base
   {
     #region Component Fields
     [SerializeField]
-    private Animator containerAnim;
+    protected Animator containerAnim;
     #endregion
 
 
-    #region Private Fields
-    private List<IEnumerator> ListImagesToDownload = new List<IEnumerator>();
-    private List<IEnumerator> ListAudiosToDownload = new List<IEnumerator>();
+    #region Protected Fields
+    protected List<IEnumerator> ListImagesToDownload = new List<IEnumerator>();
+    protected List<IEnumerator> ListAudiosToDownload = new List<IEnumerator>();
+    protected bool skipNextBeforeBuildView;
     #endregion
 
 
     #region Internal Fields
-    internal bool skipNextBeforeBuilView;
     #endregion
 
 
@@ -56,13 +56,13 @@ namespace SGOP.Base
 
     #region Virtual Methods
     #region Build View
-    private void BuildView()
+    protected void BuildView()
     {
-      if (!skipNextBeforeBuilView)
+      if (!skipNextBeforeBuildView)
       {
-        BeforeBuilView();
+        BeforeBuildView();
       }
-      skipNextBeforeBuilView = false;
+      skipNextBeforeBuildView = false;
 
       BuildTexts();
       BuildAudios();
@@ -75,7 +75,7 @@ namespace SGOP.Base
       AfterBuildView();
     }
 
-    internal virtual void BeforeBuilView() { }
+    internal virtual void BeforeBuildView() { }
 
     internal virtual void BuildTexts() { }
     internal virtual void BuildAudios() { }
@@ -92,7 +92,7 @@ namespace SGOP.Base
     #region Download
     internal virtual void BeforeDownload() { }
 
-    private void StartDownload()
+    protected void StartDownload()
     {
       if (ListImagesToDownload.Count == 0 && ListAudiosToDownload.Count == 0)
       {

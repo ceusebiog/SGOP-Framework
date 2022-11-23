@@ -2,7 +2,6 @@ using System.Collections;
 using System.IO;
 using SGOP.Model;
 using SGOP.Util;
-using SGOP.Util.Constants;
 using SGOP.Util.Type;
 using UnityEngine;
 using UnityEngine.Events;
@@ -24,7 +23,6 @@ namespace SGOP.Manager
     #region Private Fields
     private string imageFolderPath;
     private string audioFolderPath;
-    private string videoFolderPath;
     private string cacheFilePath;
     private CacheItems cacheItems;
     #endregion
@@ -46,12 +44,10 @@ namespace SGOP.Manager
 
       imageFolderPath = Path.Combine(Application.persistentDataPath, Constants.FOLDER_IMAGE);
       audioFolderPath = Path.Combine(Application.persistentDataPath, Constants.FOLDER_AUDIO);
-      videoFolderPath = Path.Combine(Application.persistentDataPath, Constants.FOLDER_VIDEO);
       cacheFilePath = Path.Combine(Application.persistentDataPath, "Cache.json");
 
       Directory.CreateDirectory(imageFolderPath);
       Directory.CreateDirectory(audioFolderPath);
-      Directory.CreateDirectory(videoFolderPath);
     }
 
     void Start()
@@ -88,13 +84,6 @@ namespace SGOP.Manager
             res = true;
           }
           break;
-        case FileType.Video:
-          if (!cacheItems.Videos.Contains(fileName))
-          {
-            cacheItems.Videos.Add(fileName);
-            res = true;
-          }
-          break;
       }
 
       if (res) LoadSave.SaveJson<CacheItems>(cacheItems, cacheFilePath);
@@ -116,9 +105,6 @@ namespace SGOP.Manager
             break;
           case FileType.Audio:
             filePath = audioFolderPath;
-            break;
-          case FileType.Video:
-            filePath = videoFolderPath;
             break;
         }
         filePath = Path.Combine(filePath, fileName);
@@ -183,7 +169,6 @@ namespace SGOP.Manager
 
       var uwr = UnityWebRequest.Get(url);
 
-      // TODO: startcoroutine
       CoroutineManager.Instance.AddCoroutine(ExecuteUWR(uwr, (uwr) =>
       {
         var json = uwr.downloadHandler.text;
@@ -217,8 +202,7 @@ namespace SGOP.Manager
 
         var uwr = UnityWebRequestTexture.GetTexture(url);
 
-        // TODO: startcoroutine
-        ExecuteUWR(uwr, (uwr) =>
+        CoroutineManager.Instance.AddCoroutine(ExecuteUWR(uwr, (uwr) =>
         {
           DebugManager.Instance.Log(debugTitle, $"{origin} downloaded {fileName} from {url}");
 
@@ -230,7 +214,7 @@ namespace SGOP.Manager
           DebugManager.Instance.Error(debugTitle, $"{origin} error on downloaded {fileName} from {url} | text: {uwr.downloadHandler.text}", uwr.error);
 
           callbackError?.Invoke();
-        });
+        }), "ExecuteUWR");
       }
     }
 
@@ -253,7 +237,7 @@ namespace SGOP.Manager
         var uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
 
         // TODO: startcoroutine
-        ExecuteUWR(uwr, (uwr) =>
+        CoroutineManager.Instance.AddCoroutine(ExecuteUWR(uwr, (uwr) =>
         {
           DebugManager.Instance.Log(debugTitle, $"{origin} downloaded {fileName} from {url}");
 
@@ -265,7 +249,7 @@ namespace SGOP.Manager
           DebugManager.Instance.Error(debugTitle, $"{origin} error on downloaded {fileName} from {url} | text: {uwr.downloadHandler.text}", uwr.error);
 
           callbackError?.Invoke();
-        });
+        }), "ExecuteUWR");
       }
     }
     #endregion

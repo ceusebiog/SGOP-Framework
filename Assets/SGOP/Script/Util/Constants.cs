@@ -1,8 +1,8 @@
-namespace SGOP.Util.Constants
+namespace SGOP.Util
 {
   public class Constants
   {
-    internal static string DEFAULT => "Default";
+    internal static string DEFAULT = "Default";
 
     #region Folder Paths
     internal static string FILE_PREF_UNIX = "file://";
